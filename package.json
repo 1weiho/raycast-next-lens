@@ -34,6 +34,14 @@
       "description": "Select your preferred IDE for opening files",
       "type": "appPicker",
       "required": true
+    },
+    {
+      "name": "nextLensPort",
+      "title": "next-lens Port",
+      "description": "Port for next-lens server (default: 9453)",
+      "type": "textfield",
+      "required": false,
+      "placeholder": "9453"
     }
   ],
   "dependencies": {

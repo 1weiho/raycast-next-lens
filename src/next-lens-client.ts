@@ -1,6 +1,40 @@
+import { getPreferenceValues, showToast, Toast } from "@raycast/api";
 import { ApiRoute, PageRoute } from "./types";
 
-const BASE_URL = "http://localhost:9453";
+const DEFAULT_PORT = 9453;
+
+// Flag to avoid showing toast multiple times for invalid port
+let hasShownInvalidPortToast = false;
+
+interface Preferences {
+  nextLensPort?: string;
+}
+
+function getBaseUrl(): string {
+  const { nextLensPort } = getPreferenceValues<Preferences>();
+
+  // If not set or empty, use default
+  if (!nextLensPort || nextLensPort.trim() === "") {
+    return `http://localhost:${DEFAULT_PORT}`;
+  }
+
+  const parsed = parseInt(nextLensPort.trim(), 10);
+
+  // Validate: must be a number between 1 and 65535
+  if (isNaN(parsed) || parsed < 1 || parsed > 65535) {
+    if (!hasShownInvalidPortToast) {
+      hasShownInvalidPortToast = true;
+      showToast({
+        style: Toast.Style.Failure,
+        title: "Invalid next-lens Port",
+        message: `"${nextLensPort}" is not a valid port. Using default ${DEFAULT_PORT}.`,
+      });
+    }
+    return `http://localhost:${DEFAULT_PORT}`;
+  }
+
+  return `http://localhost:${parsed}`;
+}
 
 export class NextLensError extends Error {
   constructor(
@@ -13,7 +47,7 @@ export class NextLensError extends Error {
 }
 
 async function fetchFromNextLens<T>(endpoint: string): Promise<T> {
-  const url = `${BASE_URL}${endpoint}`;
+  const url = `${getBaseUrl()}${endpoint}`;
 
   const response = await fetch(url);
 

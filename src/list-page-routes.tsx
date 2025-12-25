@@ -55,12 +55,13 @@ export default function ListPageRoutes() {
     <List isLoading={isLoading} searchBarPlaceholder="Search page routes...">
       {error ? (
         <List.EmptyView
-          icon={Icon.ExclamationMark}
+          icon={Icon.Warning}
           title="Unable to connect to next-lens"
-          description="Make sure next-lens server is running on http://localhost:9453"
+          description="Please run npx next-lens@latest raycast in your Next.js project"
           actions={
             <ActionPanel>
-              <Action title="Retry" onAction={() => revalidate()} />
+              <Action.CopyToClipboard title="Copy Command" content="npx next-lens@latest raycast" />
+              <Action title="Retry" icon={Icon.ArrowClockwise} onAction={() => revalidate()} />
             </ActionPanel>
           }
         />
@@ -133,5 +134,3 @@ function PageRouteItem({ route, onOpenInIDE }: { route: PageRoute; onOpenInIDE: 
     />
   );
 }
-
-

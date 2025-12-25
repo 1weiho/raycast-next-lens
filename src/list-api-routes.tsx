@@ -80,11 +80,7 @@ export default function ListApiRoutes() {
       isLoading={isLoading}
       searchBarPlaceholder="Search API routes..."
       searchBarAccessory={
-        <List.Dropdown
-          tooltip="Filter by HTTP Method"
-          value={selectedMethod}
-          onChange={setSelectedMethod}
-        >
+        <List.Dropdown tooltip="Filter by HTTP Method" value={selectedMethod} onChange={setSelectedMethod}>
           <List.Dropdown.Item title="All Methods" value="all" />
           <List.Dropdown.Section title="HTTP Methods">
             {availableMethods.map((method) => (
@@ -96,12 +92,13 @@ export default function ListApiRoutes() {
     >
       {error ? (
         <List.EmptyView
-          icon={Icon.ExclamationMark}
+          icon={Icon.Warning}
           title="Unable to connect to next-lens"
-          description="Make sure next-lens server is running on http://localhost:9453"
+          description="Please run npx next-lens@latest raycast in your Next.js project"
           actions={
             <ActionPanel>
-              <Action title="Retry" onAction={() => revalidate()} />
+              <Action.CopyToClipboard title="Copy Command" content="npx next-lens@latest raycast" />
+              <Action title="Retry" icon={Icon.ArrowClockwise} onAction={() => revalidate()} />
             </ActionPanel>
           }
         />
@@ -112,25 +109,13 @@ export default function ListApiRoutes() {
           description={selectedMethod === "all" ? "No API routes available" : `No routes with ${selectedMethod} method`}
         />
       ) : (
-        filteredRoutes.map((route) => (
-          <ApiRouteItem
-            key={route.path}
-            route={route}
-            onOpenInIDE={openInIDE}
-          />
-        ))
+        filteredRoutes.map((route) => <ApiRouteItem key={route.path} route={route} onOpenInIDE={openInIDE} />)
       )}
     </List>
   );
 }
 
-function ApiRouteItem({
-  route,
-  onOpenInIDE,
-}: {
-  route: ApiRoute;
-  onOpenInIDE: (filePath: string) => void;
-}) {
+function ApiRouteItem({ route, onOpenInIDE }: { route: ApiRoute; onOpenInIDE: (filePath: string) => void }) {
   return (
     <List.Item
       title={route.path}
@@ -143,16 +128,8 @@ function ApiRouteItem({
       }))}
       actions={
         <ActionPanel>
-          <Action
-            title="Open in IDE"
-            icon={Icon.Code}
-            onAction={() => onOpenInIDE(route.file)}
-          />
-          <Action.CopyToClipboard
-            title="Copy Path"
-            content={route.path}
-            shortcut={{ modifiers: ["cmd"], key: "c" }}
-          />
+          <Action title="Open in IDE" icon={Icon.Code} onAction={() => onOpenInIDE(route.file)} />
+          <Action.CopyToClipboard title="Copy Path" content={route.path} shortcut={{ modifiers: ["cmd"], key: "c" }} />
           <Action.CopyToClipboard
             title="Copy File Path"
             content={route.file}
@@ -163,5 +140,3 @@ function ApiRouteItem({
     />
   );
 }
-
-

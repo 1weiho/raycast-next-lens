@@ -32,5 +32,3 @@ export async function fetchApiRoutes(): Promise<ApiRoute[]> {
 export async function fetchPageRoutes(): Promise<PageRoute[]> {
   return fetchFromNextLens<PageRoute[]>("/api/pages");
 }
-
-

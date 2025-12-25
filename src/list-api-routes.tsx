@@ -12,7 +12,7 @@ import {
 } from "@raycast/api";
 import { useCachedPromise } from "@raycast/utils";
 import { useState, useMemo } from "react";
-import { fetchApiRoutes } from "./nextLensClient";
+import { fetchApiRoutes } from "./next-lens-client";
 import { ApiRoute, HTTP_METHODS } from "./types";
 
 interface Preferences {

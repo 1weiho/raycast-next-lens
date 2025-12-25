@@ -11,7 +11,7 @@ import {
   Toast,
 } from "@raycast/api";
 import { useCachedPromise } from "@raycast/utils";
-import { fetchPageRoutes } from "./nextLensClient";
+import { fetchPageRoutes } from "./next-lens-client";
 import { PageRoute, LoadingStatus, ErrorStatus } from "./types";
 
 interface Preferences {

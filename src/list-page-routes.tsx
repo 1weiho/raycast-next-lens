@@ -81,7 +81,6 @@ function PageRouteItem({ route, onOpenInIDE }: { route: PageRoute; onOpenInIDE: 
   return (
     <List.Item
       title={route.path}
-      subtitle={route.file}
       accessories={[
         {
           tag: {

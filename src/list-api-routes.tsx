@@ -119,7 +119,6 @@ function ApiRouteItem({ route, onOpenInIDE }: { route: ApiRoute; onOpenInIDE: (f
   return (
     <List.Item
       title={route.path}
-      subtitle={route.file}
       accessories={route.methods.map((method) => ({
         tag: {
           value: method,
